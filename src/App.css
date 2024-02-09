@@ -1,3 +1,13 @@
-#App {
-  background-color: black;
+body {
+  background-image: url('https://img.freepik.com/free-vector/auto-mechanic-car-service-repair-maintenance-work-icons_1284-13123.jpg?w=740&t=st=1707431494~exp=1707432094~hmac=30cf3c46e4d3d5f9c4e3a93744bd26b0c65a7a3de9ac74a7b32722fe5deae715');
+}
+
+.footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  color: black;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
 }

@@ -22,13 +22,13 @@ export default function Navigation() {
                             </Offcanvas.Header>
                             <Offcanvas.Body>
                                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                                    <Nav.Link as={NavLink} to="/records/oilChange">
+                                    <Nav.Link as={NavLink} to="/oilChange">
                                         Oil Change Records
                                     </Nav.Link>
-                                    <Nav.Link as={NavLink} to="/records/tires">
+                                    <Nav.Link as={NavLink} to="/tires">
                                         Tire Records
                                     </Nav.Link>
-                                    <Nav.Link as={NavLink} to="/records/preventativeMaintenance">
+                                    <Nav.Link as={NavLink} to="/preventativeMaintenance">
                                         Preventative Maintenance
                                     </Nav.Link>
                                 </Nav>
