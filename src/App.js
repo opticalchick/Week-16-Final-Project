@@ -5,18 +5,24 @@ import './App.css';
 import Home from './Components/Home.js';
 import Footer from './Components/Footer.js';
 import OCRecordList from './Components/OCRecordList.js';
-import TiresRecordList from './Components/TiresRecordList.js';
+import TireRecordList from './Components/TiresRecordList.js';
 import PMRecordList from './Components/PMRecordList.js';
+import NewOCRecord from './Components/NewOCRecord.js';
+import NewPMRecord from './Components/NewPMRecord.js';
+import NewTiresRecord from './Components/NewTiresRecord.js';
 
 function App() {
   return (
     <Router>
       <Navigation />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/oilChange" element={<OCRecordList />} />
-        <Route path="/tires" element={<TiresRecordList />} />
+        <Route path="/oilChangeNewEntry" element={<NewOCRecord />} />
+        <Route path="/tires" element={<TireRecordList />} />
+        <Route path="/tiresNewEntry" element={<NewTiresRecord />} />
         <Route path="/preventativeMaintenance" element={<PMRecordList />} />
+        <Route path="/preventativeMaintenanceNewEntry" element={<NewPMRecord />} />
       </Routes>
       <Footer />
     </Router>

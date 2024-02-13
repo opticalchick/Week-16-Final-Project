@@ -7,7 +7,7 @@ const NewPMRecord = () => {
     const [odometer, setOdometer] = useState('');
     const [notes, setNotes] = useState('');
     const [date, setDate] = useState('');
-    const [records, setRecords] = useState('');
+    const [records, setRecords] = useState([]);
     const PM_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance';
 
 

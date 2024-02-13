@@ -2,12 +2,100 @@ body {
   background-image: url('https://img.freepik.com/free-vector/auto-mechanic-car-service-repair-maintenance-work-icons_1284-13123.jpg?w=740&t=st=1707431494~exp=1707432094~hmac=30cf3c46e4d3d5f9c4e3a93744bd26b0c65a7a3de9ac74a7b32722fe5deae715');
 }
 
+.HomeContainer {
+  background-color: rgb(63, 64, 66, .7);
+  color: whitesmoke;
+  width: 60%;
+  align-items: center;
+  margin: auto;
+  height: 200px;
+  border-radius: 25px;
+}
+
+.HomeHeader {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
+
+.HomeP {
+  text-align: center;
+  padding: auto;
+  font-size: large;
+}
+
 .footer {
-  position: fixed;
+  position: absolute;
   width: 100%;
   bottom: 0;
   color: black;
   font-weight: bold;
   font-size: 14px;
   text-align: center;
+}
+
+
+.RecordListContainer {
+  width: 75%;
+  margin: auto;
+  background-color: rgb(180, 180, 180, .75);
+  border-radius: 10px;
+
+}
+
+.Header {
+  text-align: center;
+  margin-bottom: 20px;
+  width: auto;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+}
+
+.newRecord {
+  align-content: center;
+  background-color: rgb(63, 64, 66, .6);
+  color: whitesmoke;
+  padding: 20px;
+  width: 60%;
+  margin: auto;
+  align-items: center;
+  border-radius: 25px;
+}
+
+.OCTable {
+  text-align: center;
+  margin: auto;
+}
+
+.NavBody {
+  background-color: rgb(45, 47, 49);
+  color: whitesmoke;
+}
+
+.createButton {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.editButton {
+  margin-right: 15px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+}
+
+.deleteButton {
+  margin-bottom: 5px;
+}
+
+.editFormContainer {
+  align-content: center;
+  background-color: rgb(63, 64, 66, .6);
+  color: whitesmoke;
+  padding: 20px;
+  width: 60%;
+  margin: auto;
+  align-items: center;
+  border-radius: 25px;
 }
