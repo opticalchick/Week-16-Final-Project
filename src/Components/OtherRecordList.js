@@ -5,22 +5,20 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 import ButtonLink from "./ButtonLink.js";
 
 
-const PMRecordList = () => {
+const OtherRecordList = () => {
     const [records, setRecords] = useState([]);
-    const [odometer, setOdometer] = useState('');
-    const [notes, setNotes] = useState('');
-    const [date, setDate] = useState('');
+
     const [editRecordId, setEditRecordId] = useState('');
     const [editOdometer, setEditOdometer] = useState('');
     const [editNotes, setEditNotes] = useState('');
     const [editDate, setEditDate] = useState('');
     const [showEditForm, setShowEditForm] = useState('');
-    const PM_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance';
+    const OC_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/Other';
 
     useEffect(() => {
         const getRecords = async () => {
             try {
-                const response = await axios.get(PM_URL);
+                const response = await axios.get(OC_URL);
 
                 setRecords(response.data);
             } catch (error) {
@@ -33,8 +31,8 @@ const PMRecordList = () => {
 
     const handleDeleteRecord = async (id) => {
         try {
-            await axios.delete(`https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance/${id}`);
-            const response = await axios.get(PM_URL);
+            await axios.delete(`https://65c54d6bdae2304e92e42bed.mockapi.io/Other/${id}`);
+            const response = await axios.get(OC_URL);
 
             setRecords(response.data);
         } catch (error) {
@@ -57,7 +55,7 @@ const PMRecordList = () => {
     const handleUpdateRecord = async () => {
         try {
             if (!editOdometer || !editDate || !editNotes) {
-                console.error("Please complete all fields.");
+                alert("Please complete all fields!");
                 return;
             }
             const updatedRecord = {
@@ -66,9 +64,9 @@ const PMRecordList = () => {
                 notes: editNotes,
             };
 
-            await axios.put(`https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance/${editRecordId}`, updatedRecord);
+            await axios.put(`https://65c54d6bdae2304e92e42bed.mockapi.io/Other/${editRecordId}`, updatedRecord);
 
-            const response = await axios.get(PM_URL);
+            const response = await axios.get(OC_URL);
 
             setRecords(response.data);
 
@@ -89,7 +87,7 @@ const PMRecordList = () => {
 
     return (
         <div className="RecordListContainer">
-            <h2 className="Header">Preventative Maintenance Records</h2>
+            <h2 className="Header">Other Maintenance Records</h2>
             {showEditForm && (
                 <div className="editFormContainer mb-4">
                     <h3 className="text-center">Edit Record</h3>
@@ -155,10 +153,10 @@ const PMRecordList = () => {
                 </tbody>
             </table>
             <div className="createButton">
-                <ButtonLink to="/preventativeMaintenanceNewEntry">Create New Entry</ButtonLink>
+                <ButtonLink to="/otherRecordNewEntry">Create New Entry</ButtonLink>
             </div>
-        </div>
+        </div >
     );
 };
 
-export default PMRecordList;
+export default OtherRecordList;

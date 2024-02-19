@@ -56,49 +56,46 @@ const NewTiresRecord = () => {
     };
 
     return (
-        <div>
-            <h2>Create New Tire Record</h2>
+        <div className="newRecord">
+            <h2 className="text-center">Create New Tire Record</h2>
             <form>
-                <label>Odometer:</label>
-                <input
-                    type="number"
-                    value={odometer}
-                    onChange={(e) => setOdometer(e.target.value)} />
-
-                <label>Date:</label>
-                <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)} />
-                <label>Notes:</label>
-                <input
-                    type="text"
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)} />
-                <button type="button" onClick={handleNewTiresRecord}>Create</button>
+                <div className="row gx-5">
+                    <div className="col mb-3">
+                        <label>Date:</label>
+                        <input
+                            type="date"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                            className="form-control" />
+                    </div>
+                    <div className="col mb-3">
+                        <label>Odometer:</label>
+                        <input
+                            type="text"
+                            value={odometer}
+                            onChange={(e) => setOdometer(e.target.value)}
+                            placeholder="enter mileage"
+                            className="form-control"
+                        />
+                    </div>
+                </div>
+                <div className="col mb-3">
+                    <label>Notes:</label>
+                    <textarea
+                        type="text"
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        placeholder="enter details about tires; replacement, rotation, etc"
+                        className="form-control"
+                        rows={3} />
+                </div>
+                <div className="col mb-3 text-center">
+                    <button className="btn btn-primary"
+                        onClick={handleNewTiresRecord}>Create New Record</button>
+                </div>
             </form>
-
-            <h2>Tire Records</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Odometer</th>
-                        <th>Date</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {records.map((record) => (
-                        <tr key={record.id}>
-                            <td>{record.odometer}</td>
-                            <td>{record.date}</td>
-                            <td>{record.notes}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
         </div>
-    );
+    );;
 };
 
 export default NewTiresRecord;

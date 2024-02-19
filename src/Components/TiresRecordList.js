@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import '../App.css';
+import '../../node_modules/bootstrap/dist/css/bootstrap.css';
+import ButtonLink from "./ButtonLink.js";
+
 
 const TireRecordList = () => {
     const [records, setRecords] = useState([]);
-    const [odometer, setOdometer] = useState('');
-    const [notes, setNotes] = useState('');
-    const [date, setDate] = useState('');
     const [editRecordId, setEditRecordId] = useState('');
     const [editOdometer, setEditOdometer] = useState('');
     const [editNotes, setEditNotes] = useState('');
@@ -29,39 +28,9 @@ const TireRecordList = () => {
 
     }, []);
 
-    const handleNewRecord = async () => {
-        try {
-            if (!odometer || !date || !notes) {
-                console.error("Please complete all fields.");
-                return;
-            }
-
-            const newRecord = {
-                odometer: parseInt(odometer),
-                date,
-                notes,
-            };
-
-            await axios.post(TIRES_URL, newRecord);
-            const response = await axios.get(TIRES_URL);
-
-            setRecords(response.data);
-
-            setOdometer('');
-            setDate('');
-            setNotes('');
-        } catch (error) {
-            console.error("There was an error creating a new record:", error.message);
-
-            if (error.response) {
-                console.log("Database Response (ERROR):", error.response.data);
-            }
-        }
-    };
-
     const handleDeleteRecord = async (id) => {
         try {
-            await axios.delete(`TIRES_URL/${id}`);
+            await axios.delete(`https://65c54d6bdae2304e92e42bed.mockapi.io/Tires/${id}`);
             const response = await axios.get(TIRES_URL);
 
             setRecords(response.data);
@@ -94,7 +63,7 @@ const TireRecordList = () => {
                 notes: editNotes,
             };
 
-            await axios.put(`TIRES_URL/${editRecordId}`, updatedRecord);
+            await axios.put(`https://65c54d6bdae2304e92e42bed.mockapi.io/Tires/${editRecordId}`, updatedRecord);
 
             const response = await axios.get(TIRES_URL);
 
@@ -120,61 +89,50 @@ const TireRecordList = () => {
             <h2 className="Header">Tire Records</h2>
             {showEditForm && (
                 <div className="editFormContainer mb-4">
-                    <h3>Edit Record</h3>
+                    <h3 className="text-center">Edit Record</h3>
                     <form>
-                        <label>Date:</label>
-                        <input
-                            type="date"
-                            value={editDate}
-                            onChange={(e) => setEditDate(e.target.value)} />
-
-                        <label>Odometer:</label>
-                        <input
-                            type="number"
-                            value={editOdometer}
-                            onChange={(e) => setEditOdometer(e.target.value)} />
-
-                        <label>Note:</label>
-                        <input
-                            type="text"
-                            value={editNotes}
-                            onChange={(e) => setEditNotes(e.target.value)} />
-                        <button type="button"
-                            className="btn btn-outline-info"
-                            onClick={handleUpdateRecord}>Update</button>
+                        <div className="row gx-5">
+                            <div className="col mb-3">
+                                <label>Date:</label>
+                                <input
+                                    type="text"
+                                    value={editDate}
+                                    onChange={(e) => setEditDate(e.target.value)}
+                                    className="form-control" />
+                            </div>
+                            <div className="col mb-3">
+                                <label>Odometer:</label>
+                                <input
+                                    type="text"
+                                    value={editOdometer}
+                                    onChange={(e) => setEditOdometer(e.target.value)}
+                                    className="form-control" />
+                            </div>
+                        </div>
+                        <div className="col mb-3">
+                            <label>Notes:</label>
+                            <input
+                                type="text"
+                                value={editNotes}
+                                onChange={(e) => setEditNotes(e.target.value)}
+                                className="form-control" />
+                        </div>
+                        <div className="col mb-3 text-center">
+                            <button type="button"
+                                className="btn btn-outline-info"
+                                onClick={handleUpdateRecord}>Update</button>
+                        </div>
                     </form>
                 </div>
             )}
 
-            <div className="mb-5">
-                <form className="p-4 bg-light rounded">
-                    <label>Date:</label>
-                    <input
-                        type="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)} />
-
-                    <label>Odometer:</label>
-                    <input
-                        type="number"
-                        value={odometer}
-                        onClick={(e) => setOdometer(e.target.value)} />
-                    <label>Notes:</label>
-                    <input
-                        type="text"
-                        value={notes}
-                        onClick={(e) => setNotes(e.target.value)} />
-                    <button className="btn btn-outline-primary"
-                        onClick={handleNewRecord}>Create New Record</button>
-                </form>
-            </div>
-
-            <table className="table-striped table-hover">
+            <table className="table table-striped table-hover Table">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Odometer</th>
-                        <th>Notes</th>
+                        <th scope="col" className="col-1" datatype="date" >Date</th>
+                        <th scope="col" className="col-1">Odometer</th>
+                        <th scope="col" className="col-3">Notes</th>
+                        <th scope="col" className="col-1">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -193,7 +151,11 @@ const TireRecordList = () => {
                     ))}
                 </tbody>
             </table>
+            <div className="createButton">
+                <ButtonLink to="/tiresNewEntry">Create New Entry</ButtonLink>
+            </div>
         </div>
+
     );
 };
 

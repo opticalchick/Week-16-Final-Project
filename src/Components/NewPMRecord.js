@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import '../App.css';
 
 const NewPMRecord = () => {
     const navigate = useNavigate();
@@ -25,78 +26,61 @@ const NewPMRecord = () => {
     };
 
     const handleNewPMRecord = async () => {
-        try {
-            if (!date || !odometer || !notes) {
-                console.error("Please complete all fields");
-                return;
-            }
+        const newPMRecord = {
+            odometer: parseInt(odometer),
+            date,
+            notes,
+        };
 
-            const newPMRecord = {
-                odometer: parseInt(odometer),
-                date,
-                notes,
-            };
+        await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance', newPMRecord);
 
-            await axios.post(PM_URL, newPMRecord);
+        const response = await axios.get(PM_URL);
+        console.log(response.data);
 
-            getRecords();
+        setRecords(response.data);
+        navigate("/preventativeMaintenance");
 
-            setOdometer('');
-            setDate('');
-            setNotes('');
-
-            navigate("/");
-        } catch (error) {
-            console.error("There was a problem creating a new entry:", error.message);
-
-            if (error.response) {
-                console.log("Database Response (ERROR):", error.response.data);
-            }
-        }
     };
 
     return (
-        <div>
-            <h2>Create New Preventative Maintenance Record</h2>
+        <div className="newRecord">
+            <h2 className="text-center">Create New Preventative Maintenance Record</h2>
             <form>
-                <label>Odometer:</label>
-                <input
-                    type="number"
-                    value={odometer}
-                    onChange={(e) => setOdometer(e.target.value)} />
-
-                <label>Date:</label>
-                <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)} />
-                <label>Notes:</label>
-                <input
-                    type="text"
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)} />
-                <button type="button" onClick={handleNewPMRecord}>Create</button>
+                <div className="row gx-5">
+                    <div className="col mb-3">
+                        <label>Date:</label>
+                        <input
+                            type="date"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                            className="form-control" />
+                    </div>
+                    <div className="col mb-3">
+                        <label>Odometer:</label>
+                        <input
+                            type="text"
+                            value={odometer}
+                            onChange={(e) => setOdometer(e.target.value)}
+                            placeholder="enter mileage"
+                            className="form-control"
+                        />
+                    </div>
+                </div>
+                <div className="col mb-3">
+                    <label>Notes:</label>
+                    <textarea
+                        type="text"
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        placeholder="enter details about preventative maintenance"
+                        className="form-control"
+                        rows={3} />
+                </div>
+                <div className="col mb-3 text-center">
+                    <button className="btn btn-primary"
+                        onClick={handleNewPMRecord}>Create New Record</button>
+                </div>
             </form>
-
-            <h2>Preventative Maintenance Records</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Odometer</th>
-                        <th>Date</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {records.map((record) => (
-                        <tr key={record.id}>
-                            <td>{record.odometer}</td>
-                            <td>{record.date}</td>
-                            <td>{record.notes}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
         </div>
     );
 };

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Alert } from "react-bootstrap";
+import { redirect, useNavigate, useNavigation } from "react-router-dom";
 
-const NewOCRecord = () => {
+const NewOtherRecord = () => {
+    const navigate = useNavigate();
     const [odometer, setOdometer] = useState('');
     const [notes, setNotes] = useState('');
     const [date, setDate] = useState('');
     const [records, setRecords] = useState([]);
-    const OC_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/OilChange';
-    const navigate = useNavigate();
+    const OC_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/Other';
 
     useEffect(() => {
         getRecords();
@@ -25,23 +24,23 @@ const NewOCRecord = () => {
         }
     };
 
-    const handleNewOCRecord = async () => {
+    const handleNewOtherRecord = async () => {
         const newRecord = {
             date,
-            odometer: parseInt(odometer),
+            odometer: parseInt(odometer, 10),
             notes
         };
 
-        await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/OilChange', newRecord);
-        // navigate("/oilChange");
+        await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/Other', newRecord);
         const response = await axios.get(OC_URL);
-        console.log(response);
-        navigate("/oilChange");
+
+        setRecords(response.data);
+        navigate("/otherRecord");
     };
 
     return (
         <div className="newRecord">
-            <h2 className="text-center">Create New Oil Change Record</h2>
+            <h2 className="text-center">Create New Record</h2>
             <form>
                 <div className="row gx-5">
                     <div className="col mb-3">
@@ -69,18 +68,17 @@ const NewOCRecord = () => {
                         type="text"
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
-                        placeholder="enter details about oil, filter, etc"
+                        placeholder="enter details about replacement parts, etc"
                         className="form-control"
                         rows={3} />
                 </div>
                 <div className="col mb-3 text-center">
                     <button className="btn btn-primary"
-                        onClick={handleNewOCRecord}>Create New Record</button>
+                        onClick={handleNewOtherRecord}>Create New Record</button>
                 </div>
             </form>
         </div>
     );
 };
 
-export default NewOCRecord;
-
+export default NewOtherRecord;

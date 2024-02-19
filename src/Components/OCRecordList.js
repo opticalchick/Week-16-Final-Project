@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.css';
+import ButtonLink from "./ButtonLink.js";
 
-function ButtonLink({ to, children }) {
-    return <Link to={to}><button className="btn btn-primary">{children}</button></Link>;
-}
+
+
 
 const OCRecordList = () => {
     const [records, setRecords] = useState([]);
-
     const [editRecordId, setEditRecordId] = useState('');
     const [editOdometer, setEditOdometer] = useState('');
     const [editNotes, setEditNotes] = useState('');
     const [editDate, setEditDate] = useState('');
     const [showEditForm, setShowEditForm] = useState('');
     const OC_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/OilChange';
+
 
     useEffect(() => {
         const getRecords = async () => {
@@ -58,12 +57,12 @@ const OCRecordList = () => {
     const handleUpdateRecord = async () => {
         try {
             if (!editOdometer || !editDate || !editNotes) {
-                console.error("Please complete all fields.");
+                alert("Please complete all fields!");
                 return;
             }
             const updatedRecord = {
                 date: editDate,
-                odometer: parseInt(editOdometer),
+                odometer: parseInt(editOdometer, 10),
                 notes: editNotes,
             };
 
@@ -130,7 +129,8 @@ const OCRecordList = () => {
                 </div>
             )}
 
-            <table className="table table-striped table-hover OCTable">
+
+            <table className="table table-striped table-hover Table">
                 <thead>
                     <tr>
                         <th scope="col" className="col-1" datatype="date" >Date</th>

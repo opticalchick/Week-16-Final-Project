@@ -16,7 +16,7 @@ export default function Navigation() {
             {[false].map((expand) => (
                 <Navbar bg="dark" data-bs-theme="dark" key={expand} expand={expand} className="bg-body-tertiary mb-3">
                     <Container fluid>
-                        <Navbar.Brand as={NavLink} to="/home">Vehicle Maintenance Record</Navbar.Brand>
+                        <Navbar.Brand as={NavLink} to="/">Vehicle Maintenance Record</Navbar.Brand>
                         <Navbar.Toggle
                             aria-controls={`offcanvasNavbar-expand-${expand}`}
                             onClick={toggleOffCanvas} />
@@ -28,7 +28,9 @@ export default function Navigation() {
                             onHide={toggleOffCanvas}>
                             <Offcanvas.Header closeButton>
                                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                                    Vehicle Maintenance Record
+                                    <Nav.Link as={NavLink} to="/" onClick={toggleOffCanvas}>
+                                        Vehicle Maintenance Record
+                                    </Nav.Link>
                                 </Offcanvas.Title>
                             </Offcanvas.Header>
                             <Offcanvas.Body className="NavBody">
@@ -41,6 +43,9 @@ export default function Navigation() {
                                     </Nav.Link>
                                     <Nav.Link as={NavLink} to="/preventativeMaintenance" onClick={toggleOffCanvas} >
                                         Preventative Maintenance
+                                    </Nav.Link>
+                                    <Nav.Link as={NavLink} to="/otherRecord" onClick={toggleOffCanvas} >
+                                        Other Maintenance
                                     </Nav.Link>
                                 </Nav>
                             </Offcanvas.Body>
