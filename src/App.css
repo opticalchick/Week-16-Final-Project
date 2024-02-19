@@ -41,7 +41,7 @@ body {
   background-color: rgb(180, 180, 180, .75);
   border-radius: 10px;
   padding: 25px;
-
+  box-shadow: 0 0 20px rgba(0, 0, 0, 1);
 }
 
 .Header {
@@ -62,11 +62,14 @@ body {
   margin: auto;
   align-items: center;
   border-radius: 25px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  margin-top: 50px;
 }
 
 .Table {
   text-align: center;
   width: 75%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.75);
 }
 
 .NavBody {

@@ -7,35 +7,23 @@ const NewOtherRecord = () => {
     const [odometer, setOdometer] = useState('');
     const [notes, setNotes] = useState('');
     const [date, setDate] = useState('');
-    const [records, setRecords] = useState([]);
-    const OC_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/Other';
-
-    useEffect(() => {
-        getRecords();
-    }, []);
-
-    const getRecords = async () => {
-        try {
-            const response = await axios.get(OC_URL);
-            setRecords(response.data);
-
-        } catch (error) {
-            console.error("There was an error retrieving records:", error.message);
-        }
-    };
+    const OTHER_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/Other';
 
     const handleNewOtherRecord = async () => {
-        const newRecord = {
-            date,
-            odometer: parseInt(odometer, 10),
-            notes
-        };
+        if (date.trim().length === 0 || odometer.trim().length === 0 || notes.trim().length === 0) {
+            alert("Please complete all fields!")
+        } else {
+            const newRecord = {
+                date,
+                odometer: parseInt(odometer, 10),
+                notes
+            };
 
-        await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/Other', newRecord);
-        const response = await axios.get(OC_URL);
-
-        setRecords(response.data);
-        navigate("/otherRecord");
+            await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/Other', newRecord);
+            const response = await axios.get(OTHER_URL);
+            console.log(response);
+            navigate("/otherRecord");
+        }
     };
 
     return (
@@ -49,7 +37,8 @@ const NewOtherRecord = () => {
                             type="date"
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
-                            className="form-control" />
+                            className="form-control"
+                            required={true} />
                     </div>
                     <div className="col mb-3">
                         <label>Odometer:</label>
@@ -59,7 +48,7 @@ const NewOtherRecord = () => {
                             onChange={(e) => setOdometer(e.target.value)}
                             placeholder="enter mileage"
                             className="form-control"
-                        />
+                            required={true} />
                     </div>
                 </div>
                 <div className="col mb-3">
@@ -70,7 +59,8 @@ const NewOtherRecord = () => {
                         onChange={(e) => setNotes(e.target.value)}
                         placeholder="enter details about replacement parts, etc"
                         className="form-control"
-                        rows={3} />
+                        rows={3}
+                        required={true} />
                 </div>
                 <div className="col mb-3 text-center">
                     <button className="btn btn-primary"

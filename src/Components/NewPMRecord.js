@@ -8,38 +8,25 @@ const NewPMRecord = () => {
     const [odometer, setOdometer] = useState('');
     const [notes, setNotes] = useState('');
     const [date, setDate] = useState('');
-    const [records, setRecords] = useState([]);
     const PM_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance';
 
 
-    useEffect(() => {
-        getRecords();
-    }, []);
-
-    const getRecords = async () => {
-        try {
-            const response = await axios.get(PM_URL);
-            setRecords(response.data);
-        } catch (error) {
-            console.error("There was an error retrieving records:", error.message);
-        }
-    };
-
     const handleNewPMRecord = async () => {
-        const newPMRecord = {
-            odometer: parseInt(odometer),
-            date,
-            notes,
-        };
+        if (date.trim().length === 0 || odometer.trim().length === 0 || notes.trim().length === 0) {
+            alert("Please complete all fields!")
+        } else {
+            const newPMRecord = {
+                odometer: parseInt(odometer),
+                date,
+                notes,
+            };
 
-        await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance', newPMRecord);
+            await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance', newPMRecord);
 
-        const response = await axios.get(PM_URL);
-        console.log(response.data);
-
-        setRecords(response.data);
-        navigate("/preventativeMaintenance");
-
+            const response = await axios.get(PM_URL);
+            console.log(response);
+            navigate("/preventativeMaintenance");
+        }
     };
 
     return (

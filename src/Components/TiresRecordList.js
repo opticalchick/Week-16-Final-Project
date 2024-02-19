@@ -3,7 +3,7 @@ import axios from "axios";
 import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 import ButtonLink from "./ButtonLink.js";
-
+import Moment from "react-moment";
 
 const TireRecordList = () => {
     const [records, setRecords] = useState([]);
@@ -53,9 +53,8 @@ const TireRecordList = () => {
 
     const handleUpdateRecord = async () => {
         try {
-            if (!editOdometer || !editDate || !editNotes) {
-                console.error("Please complete all fields.");
-                return;
+            if (editDate.trim().length === 0 || editOdometer.trim().length === 0 || editNotes.trim().length === 0) {
+                alert("Please complete all fields!")
             }
             const updatedRecord = {
                 date: editDate,
@@ -138,7 +137,7 @@ const TireRecordList = () => {
                 <tbody>
                     {records.map((record) => (
                         <tr key={record.id}>
-                            <td>{record.date}</td>
+                            <td><Moment format="MM/DD/YYYY">{record.date}</Moment></td>
                             <td>{record.odometer}</td>
                             <td>{record.notes}</td>
                             <td>

@@ -1,42 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Alert } from "react-bootstrap";
+
 
 const NewOCRecord = () => {
     const [odometer, setOdometer] = useState('');
     const [notes, setNotes] = useState('');
     const [date, setDate] = useState('');
-    const [records, setRecords] = useState([]);
     const OC_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/OilChange';
     const navigate = useNavigate();
 
-    useEffect(() => {
-        getRecords();
-    }, []);
-
-    const getRecords = async () => {
-        try {
-            const response = await axios.get(OC_URL);
-            setRecords(response.data);
-
-        } catch (error) {
-            console.error("There was an error retrieving records:", error.message);
-        }
-    };
-
     const handleNewOCRecord = async () => {
-        const newRecord = {
-            date,
-            odometer: parseInt(odometer),
-            notes
-        };
+        if (date.trim().length === 0 || odometer.trim().length === 0 || notes.trim().length === 0) {
+            alert("Please complete all fields!")
+        } else {
+            const newRecord = {
+                date,
+                odometer: parseInt(odometer),
+                notes
+            };
 
-        await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/OilChange', newRecord);
-        // navigate("/oilChange");
-        const response = await axios.get(OC_URL);
-        console.log(response);
-        navigate("/oilChange");
+            await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/OilChange', newRecord);
+            const response = await axios.get(OC_URL);
+            console.log(response);
+            navigate("/oilChange");
+        }
     };
 
     return (
@@ -50,7 +38,8 @@ const NewOCRecord = () => {
                             type="date"
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
-                            className="form-control" />
+                            className="form-control"
+                            required={true} />
                     </div>
                     <div className="col mb-3">
                         <label>Odometer:</label>
@@ -60,7 +49,7 @@ const NewOCRecord = () => {
                             onChange={(e) => setOdometer(e.target.value)}
                             placeholder="enter mileage"
                             className="form-control"
-                        />
+                            required={true} />
                     </div>
                 </div>
                 <div className="col mb-3">
@@ -71,7 +60,8 @@ const NewOCRecord = () => {
                         onChange={(e) => setNotes(e.target.value)}
                         placeholder="enter details about oil, filter, etc"
                         className="form-control"
-                        rows={3} />
+                        rows={3}
+                        required={true} />
                 </div>
                 <div className="col mb-3 text-center">
                     <button className="btn btn-primary"
