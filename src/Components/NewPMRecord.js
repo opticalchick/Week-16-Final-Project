@@ -21,10 +21,8 @@ const NewPMRecord = () => {
                 notes,
             };
 
-            await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance', newPMRecord);
-
-            const response = await axios.get(PM_URL);
-            console.log(response);
+            const response = await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance', newPMRecord);
+            console.log("Post request successful", response);
             navigate("/preventativeMaintenance");
         }
     };

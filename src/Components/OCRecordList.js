@@ -12,15 +12,18 @@ const OCRecordList = () => {
     const [editNotes, setEditNotes] = useState('');
     const [editDate, setEditDate] = useState('');
     const [showEditForm, setShowEditForm] = useState('');
+
     const OC_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/OilChange';
 
 
     useEffect(() => {
+
         const getRecords = async () => {
             try {
                 const response = await axios.get(OC_URL);
 
                 setRecords(response.data);
+
             } catch (error) {
                 console.error("There was an error retrieving records:", error.message);
             }

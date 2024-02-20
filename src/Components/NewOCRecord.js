@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 const NewOCRecord = () => {
     const [odometer, setOdometer] = useState('');
     const [notes, setNotes] = useState('');
@@ -20,9 +19,8 @@ const NewOCRecord = () => {
                 notes
             };
 
-            await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/OilChange', newRecord);
-            const response = await axios.get(OC_URL);
-            console.log(response);
+            const response = await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/OilChange', newRecord);
+            console.log("Post request successful", response);
             navigate("/oilChange");
         }
     };

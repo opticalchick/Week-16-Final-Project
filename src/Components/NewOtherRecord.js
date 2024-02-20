@@ -19,9 +19,8 @@ const NewOtherRecord = () => {
                 notes
             };
 
-            await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/Other', newRecord);
-            const response = await axios.get(OTHER_URL);
-            console.log(response);
+            const response = await axios.post('https://65c54d6bdae2304e92e42bed.mockapi.io/Other', newRecord);
+            console.log("Post request successful", response);
             navigate("/otherRecord");
         }
     };
