@@ -1,7 +1,9 @@
 import React from 'react';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
+import { AccordionButton } from 'react-bootstrap';
 
+// Simple home page to say what this app is about
 
 export default function Home() {
 

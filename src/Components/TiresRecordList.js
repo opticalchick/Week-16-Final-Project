@@ -4,7 +4,9 @@ import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 import ButtonLink from "./ButtonLink.js";
 import Moment from "react-moment";
+import { NumericFormat } from "react-number-format";
 
+// creates tire list, with edit and delete functions
 const TireRecordList = () => {
     const [records, setRecords] = useState([]);
     const [editRecordId, setEditRecordId] = useState('');
@@ -14,6 +16,7 @@ const TireRecordList = () => {
     const [showEditForm, setShowEditForm] = useState('');
     const TIRES_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/Tires';
 
+    // sends get request to API, sets records, mounts once
     useEffect(() => {
         const getRecords = async () => {
             try {
@@ -28,6 +31,7 @@ const TireRecordList = () => {
 
     }, []);
 
+    // sends delete request to API with record id, then sets record with response
     const handleDeleteRecord = async (id) => {
         try {
             await axios.delete(`https://65c54d6bdae2304e92e42bed.mockapi.io/Tires/${id}`);
@@ -43,6 +47,7 @@ const TireRecordList = () => {
         }
     };
 
+    // called when edit button clicked; pulls information forward to edit and shows edit form
     const handleEditRecord = (record) => {
         setEditRecordId(record.id);
         setEditDate(record.date);
@@ -51,25 +56,25 @@ const TireRecordList = () => {
         setShowEditForm(true);
     };
 
+    // this is called when submit button clicked on edit form
     const handleUpdateRecord = async () => {
         try {
+            // checks to make sure that none of the fields are empty.  Sends alert if empty fields exist
             if (editDate.trim().length === 0 || editOdometer.trim().length === 0 || editNotes.trim().length === 0) {
                 alert("Please complete all fields!")
             }
             const updatedRecord = {
                 date: editDate,
-                odometer: parseInt(editOdometer),
+                odometer: parseInt(editOdometer, 10),
                 notes: editNotes,
             };
 
             await axios.put(`https://65c54d6bdae2304e92e42bed.mockapi.io/Tires/${editRecordId}`, updatedRecord);
-
             const response = await axios.get(TIRES_URL);
-
             setRecords(response.data);
 
+            // hides form upon form submission and clears fields
             setShowEditForm(false);
-
             setEditRecordId(null);
             setEditOdometer('');
             setEditDate('');
@@ -82,7 +87,7 @@ const TireRecordList = () => {
             }
         }
     };
-
+    // container for edit form and table displaying API data.  Styled with CSS and Bootstrap
     return (
         <div className="RecordListContainer">
             <h2 className="Header">Tire Records</h2>
@@ -94,7 +99,7 @@ const TireRecordList = () => {
                             <div className="col mb-3">
                                 <label>Date:</label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     value={editDate}
                                     onChange={(e) => setEditDate(e.target.value)}
                                     className="form-control" />
@@ -135,10 +140,14 @@ const TireRecordList = () => {
                     </tr>
                 </thead>
                 <tbody>
+                    {/* Mapping records for table */}
                     {records.map((record) => (
                         <tr key={record.id}>
+                            {/* used Moment to convert date to preferred format & 
+                            NumericFormat used to format commas in large numbers returning
+                            from API data */}
                             <td><Moment format="MM/DD/YYYY">{record.date}</Moment></td>
-                            <td>{record.odometer}</td>
+                            <td><NumericFormat value={record.odometer} displayType={"text"} thousandSeparator={true} /></td>
                             <td>{record.notes}</td>
                             <td>
                                 <button className="editButton btn btn-outline-info"

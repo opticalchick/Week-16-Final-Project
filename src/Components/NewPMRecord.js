@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import '../App.css';
+import userEvent from "@testing-library/user-event";
 
 const NewPMRecord = () => {
     const navigate = useNavigate();
     const [odometer, setOdometer] = useState('');
     const [notes, setNotes] = useState('');
     const [date, setDate] = useState('');
-    const PM_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance';
 
-
-    const handleNewPMRecord = async () => {
+    // This will create a new record when button onClick event is triggered below.
+    // Using e.preventDefault will keep the page from reloading and redirects user
+    // to the list page after new record created
+    const handleNewPMRecord = async (e) => {
+        e.preventDefault();
         if (date.trim().length === 0 || odometer.trim().length === 0 || notes.trim().length === 0) {
             alert("Please complete all fields!")
         } else {
             const newPMRecord = {
-                odometer: parseInt(odometer),
+                odometer: parseInt(odometer, 10),
                 date,
                 notes,
             };

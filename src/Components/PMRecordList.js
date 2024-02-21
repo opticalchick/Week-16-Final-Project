@@ -4,12 +4,10 @@ import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 import ButtonLink from "./ButtonLink.js";
 import Moment from "react-moment";
+import { NumericFormat } from "react-number-format";
 
 const PMRecordList = () => {
     const [records, setRecords] = useState([]);
-    const [odometer, setOdometer] = useState('');
-    const [notes, setNotes] = useState('');
-    const [date, setDate] = useState('');
     const [editRecordId, setEditRecordId] = useState('');
     const [editOdometer, setEditOdometer] = useState('');
     const [editNotes, setEditNotes] = useState('');
@@ -17,6 +15,7 @@ const PMRecordList = () => {
     const [showEditForm, setShowEditForm] = useState('');
     const PM_URL = 'https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance';
 
+    // sends get request, sets data, and mounts once
     useEffect(() => {
         const getRecords = async () => {
             try {
@@ -31,6 +30,7 @@ const PMRecordList = () => {
 
     }, []);
 
+    // sends delete request, then a get request to set records again
     const handleDeleteRecord = async (id) => {
         try {
             await axios.delete(`https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance/${id}`);
@@ -46,6 +46,7 @@ const PMRecordList = () => {
         }
     };
 
+    // shows edit form and pulls current info that can be edited
     const handleEditRecord = (record) => {
         setEditRecordId(record.id);
         setEditDate(record.date);
@@ -54,19 +55,21 @@ const PMRecordList = () => {
         setShowEditForm(true);
     };
 
+    // handles the edit request by sending put request to API, then clearing fields, 
+    // then hiding edit form again until edit button is clicked 
     const handleUpdateRecord = async () => {
         try {
-            if (date.trim().length === 0 || odometer.trim().length === 0 || notes.trim().length === 0) {
+            // checks to make sure none of the fields are empty and sends alert if they are
+            if (editDate.trim().length === 0 || editOdometer.trim().length === 0 || editNotes.trim().length === 0) {
                 alert("Please complete all fields!")
             }
             const updatedRecord = {
                 date: editDate,
-                odometer: parseInt(editOdometer),
+                odometer: parseInt(editOdometer, 10),
                 notes: editNotes,
             };
 
             await axios.put(`https://65c54d6bdae2304e92e42bed.mockapi.io/PreventativeMaintenance/${editRecordId}`, updatedRecord);
-
             const response = await axios.get(PM_URL);
 
             setRecords(response.data);
@@ -85,7 +88,8 @@ const PMRecordList = () => {
             }
         }
     };
-
+    // container for the edit form and the table displaying API data. CSS and Bootstrap 
+    // used for styling
     return (
         <div className="RecordListContainer">
             <h2 className="Header">Preventative Maintenance Records</h2>
@@ -97,7 +101,7 @@ const PMRecordList = () => {
                             <div className="col mb-3">
                                 <label>Date:</label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     value={editDate}
                                     onChange={(e) => setEditDate(e.target.value)}
                                     className="form-control" />
@@ -138,10 +142,12 @@ const PMRecordList = () => {
                     </tr>
                 </thead>
                 <tbody>
+                    {/* mapping records to create table data */}
                     {records.map((record) => (
                         <tr key={record.id}>
+                            {/* Moment and NumericFormat used to format data from API */}
                             <td><Moment format="MM/DD/YYYY">{record.date}</Moment></td>
-                            <td>{record.odometer}</td>
+                            <td><NumericFormat value={record.odometer} displayType={"text"} thousandSeparator={true} /></td>
                             <td>{record.notes}</td>
                             <td>
                                 <button className="editButton btn btn-outline-info"

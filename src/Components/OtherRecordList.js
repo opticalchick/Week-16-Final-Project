@@ -4,11 +4,11 @@ import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 import ButtonLink from "./ButtonLink.js";
 import Moment from "react-moment";
+import { NumericFormat } from "react-number-format";
 
 
 const OtherRecordList = () => {
     const [records, setRecords] = useState([]);
-
     const [editRecordId, setEditRecordId] = useState('');
     const [editOdometer, setEditOdometer] = useState('');
     const [editNotes, setEditNotes] = useState('');
@@ -19,8 +19,8 @@ const OtherRecordList = () => {
     useEffect(() => {
         const getRecords = async () => {
             try {
+                // sends request for data from API then sets records
                 const response = await axios.get(OC_URL);
-
                 setRecords(response.data);
             } catch (error) {
                 console.error("There was an error retrieving records:", error.message);
@@ -30,6 +30,7 @@ const OtherRecordList = () => {
 
     }, []);
 
+    // Sends delete request to API when delete button onClick event triggered.
     const handleDeleteRecord = async (id) => {
         try {
             await axios.delete(`https://65c54d6bdae2304e92e42bed.mockapi.io/Other/${id}`);
@@ -45,6 +46,7 @@ const OtherRecordList = () => {
         }
     };
 
+    // Shows edit form and uses current information in form that can be changed
     const handleEditRecord = (record) => {
         setEditRecordId(record.id);
         setEditDate(record.date);
@@ -53,25 +55,29 @@ const OtherRecordList = () => {
         setShowEditForm(true);
     };
 
+    // function for editing information contained in record
     const handleUpdateRecord = async () => {
         try {
+            // checks if fields have input and shows alert if empty
             if (editDate.trim().length === 0 || editOdometer.trim().length === 0 || editNotes.trim().length === 0) {
                 alert("Please complete all fields!")
             }
+            // composition of edit record            
             const updatedRecord = {
                 date: editDate,
-                odometer: parseInt(editOdometer),
+                odometer: parseInt(editOdometer, 10),
                 notes: editNotes,
             };
-
+            // API notified of edit; sends put request and gets data returned to show
+            // after response
             await axios.put(`https://65c54d6bdae2304e92e42bed.mockapi.io/Other/${editRecordId}`, updatedRecord);
-
             const response = await axios.get(OC_URL);
-
             setRecords(response.data);
 
+            // hides edit form after edit complete
             setShowEditForm(false);
 
+            // resets fields to be empty
             setEditRecordId(null);
             setEditOdometer('');
             setEditDate('');
@@ -85,9 +91,13 @@ const OtherRecordList = () => {
         }
     };
 
+    // Container holding edit form and table displaying data from API    
     return (
         <div className="RecordListContainer">
             <h2 className="Header">Other Maintenance Records</h2>
+
+            {/* This form is hidden until edit button is clicked and state changes. Bootstrap
+            and CSS used for styling form and table */}
             {showEditForm && (
                 <div className="editFormContainer mb-4">
                     <h3 className="text-center">Edit Record</h3>
@@ -96,7 +106,7 @@ const OtherRecordList = () => {
                             <div className="col mb-3">
                                 <label>Date:</label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     value={editDate}
                                     onChange={(e) => setEditDate(e.target.value)}
                                     className="form-control" />
@@ -140,7 +150,7 @@ const OtherRecordList = () => {
                     {records.map((record) => (
                         <tr key={record.id}>
                             <td><Moment format="MM/DD/YYYY">{record.date}</Moment></td>
-                            <td>{record.odometer}</td>
+                            <td><NumericFormat value={record.odometer} displayType={"text"} thousandSeparator={true} /></td>
                             <td>{record.notes}</td>
                             <td>
                                 <button className="editButton btn btn-outline-info"
