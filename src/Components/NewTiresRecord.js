@@ -11,7 +11,7 @@ const NewTiresRecord = () => {
     const handleNewTiresRecord = async (e) => {
         e.preventDefault();
 
-        // This will alert user if all fields haven't been completed 
+        // This will alert user if all fields haven't been completed & return to form
         if (date.trim().length === 0 || odometer.trim().length === 0 || notes.trim().length === 0) {
             alert("Please complete all fields!");
             return;
