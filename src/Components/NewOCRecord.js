@@ -16,7 +16,8 @@ const NewOCRecord = () => {
         // The if statement will check to make sure all fields are complete.  If not, 
         // then it sends an alert to complete all fields.
         if (date.trim().length === 0 || odometer.trim().length === 0 || notes.trim().length === 0) {
-            alert("Please complete all fields!")
+            alert("Please complete all fields!");
+            return;
         } else {
             const newRecord = {
                 date,

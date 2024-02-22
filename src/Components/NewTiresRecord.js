@@ -13,7 +13,8 @@ const NewTiresRecord = () => {
 
         // This will alert user if all fields haven't been completed 
         if (date.trim().length === 0 || odometer.trim().length === 0 || notes.trim().length === 0) {
-            alert("Please complete all fields!")
+            alert("Please complete all fields!");
+            return;
         } else {
             const newRecord = {
                 date,

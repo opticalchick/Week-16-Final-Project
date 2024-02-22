@@ -60,7 +60,8 @@ const OtherRecordList = () => {
         try {
             // checks if fields have input and shows alert if empty
             if (editDate.trim().length === 0 || editOdometer.trim().length === 0 || editNotes.trim().length === 0) {
-                alert("Please complete all fields!")
+                alert("Please complete all fields!");
+                return;
             }
             // composition of edit record            
             const updatedRecord = {

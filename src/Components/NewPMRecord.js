@@ -16,7 +16,8 @@ const NewPMRecord = () => {
     const handleNewPMRecord = async (e) => {
         e.preventDefault();
         if (date.trim().length === 0 || odometer.trim().length === 0 || notes.trim().length === 0) {
-            alert("Please complete all fields!")
+            alert("Please complete all fields!");
+            return;
         } else {
             const newPMRecord = {
                 odometer: parseInt(odometer, 10),

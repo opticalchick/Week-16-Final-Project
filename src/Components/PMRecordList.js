@@ -61,7 +61,8 @@ const PMRecordList = () => {
         try {
             // checks to make sure none of the fields are empty and sends alert if they are
             if (editDate.trim().length === 0 || editOdometer.trim().length === 0 || editNotes.trim().length === 0) {
-                alert("Please complete all fields!")
+                alert("Please complete all fields!");
+                return;
             }
             const updatedRecord = {
                 date: editDate,

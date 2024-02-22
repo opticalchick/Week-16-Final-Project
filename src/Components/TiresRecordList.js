@@ -61,7 +61,8 @@ const TireRecordList = () => {
         try {
             // checks to make sure that none of the fields are empty.  Sends alert if empty fields exist
             if (editDate.trim().length === 0 || editOdometer.trim().length === 0 || editNotes.trim().length === 0) {
-                alert("Please complete all fields!")
+                alert("Please complete all fields!");
+                return;
             }
             const updatedRecord = {
                 date: editDate,
